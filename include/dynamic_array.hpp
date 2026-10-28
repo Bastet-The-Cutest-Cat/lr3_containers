@@ -2,7 +2,6 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include <type_traits>
 #include <utility>
 
 // Класс динамического массива (аналог std::vector, упрощённый).
@@ -16,7 +15,7 @@ public:
     using const_iterator = const T*;
 
     // Конструктор по умолчанию: пустой массив, память ещё не выделена.
-    explicit DynamicArray() = default;
+    DynamicArray() = default;
 
     // Конструктор перемещения: «забираем» буфер у другого объекта.
     // Другой массив становится пустым (не владеет памятью).

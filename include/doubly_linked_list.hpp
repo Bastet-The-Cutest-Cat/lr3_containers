@@ -2,7 +2,6 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include <type_traits>
 #include <utility>
 
 // Класс двусвязного списка. T — тип хранимых элементов.
