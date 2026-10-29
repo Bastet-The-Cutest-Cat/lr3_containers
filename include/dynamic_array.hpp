@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <utility>
 
+// Dynamic array через std::sort
+
 template <typename T>
 class DynamicArray {
 public:
@@ -16,12 +18,26 @@ public:
         using value_type = T;
         using pointer = T*;
         using reference = T&;
+        using difference_type = std::ptrdiff_t;
+        using iterator_category = std::random_access_iterator_tag;
 
         iterator() = default;
         reference operator*() const { return *pointer_; }
         pointer operator->() const { return pointer_; }
         iterator& operator++() { ++pointer_; return *this; }
+        iterator& operator--() { --pointer_; return *this; }
         iterator operator++(int) { iterator copy = *this; ++pointer_; return copy; }
+        iterator operator--(int) { const_iterator copy = *this; --pointer_; return copy; }
+        iterator operator+(difference_type n) const { return iterator(pointer_ + n); }
+        iterator operator-(difference_type n) const { return iterator(pointer_ - n); }
+        iterator& operator+=(difference_type n) { pointer_ += n; return *this; }
+        iterator& operator-=(difference_type n) { pointer_ -= n; return *this; }
+        reference operator[](difference_type n) const { return pointer_[n]; }
+        difference_type operator-(const iterator& other) const { return pointer_ - other.pointer_; }
+        bool operator<(const iterator& other)  const { return pointer_ <  other.pointer_; }
+        bool operator<=(const iterator& other) const { return pointer_ <= other.pointer_; }
+        bool operator>(const iterator& other)  const { return pointer_ >  other.pointer_; }
+        bool operator>=(const iterator& other) const { return pointer_ >= other.pointer_; }
         bool operator==(const iterator& other) const { return pointer_ == other.pointer_; }
         bool operator!=(const iterator& other) const { return pointer_ != other.pointer_; }
     };
@@ -35,12 +51,26 @@ public:
         using value_type = T;
         using pointer = const T*;
         using reference = const T&;
+        using difference_type = std::ptrdiff_t;
+        using iterator_category = std::random_access_iterator_tag;
 
         const_iterator() = default;
         reference operator*() const { return *pointer_; }
         pointer operator->() const { return pointer_; }
         const_iterator& operator++() { ++pointer_; return *this; }
+        const_iterator& operator--() { --pointer_; return *this; }
         const_iterator operator++(int) { const_iterator copy = *this; ++pointer_; return copy; }
+        const_iterator operator--(int) { const_iterator copy = *this; --pointer_; return copy; }
+        const_iterator operator+(difference_type n) const { return iterator(pointer_ + n); }
+        const_iterator operator-(difference_type n) const { return iterator(pointer_ - n); }
+        const_iterator& operator+=(difference_type n) { pointer_ += n; return *this; }
+        const_iterator& operator-=(difference_type n) { pointer_ -= n; return *this; }
+        reference operator[](difference_type n) const { return pointer_[n]; }
+        difference_type operator-(const iterator& other) const { return pointer_ - other.pointer_; }
+        bool operator<(const iterator& other)  const { return pointer_ <  other.pointer_; }
+        bool operator<=(const iterator& other) const { return pointer_ <= other.pointer_; }
+        bool operator>(const iterator& other)  const { return pointer_ >  other.pointer_; }
+        bool operator>=(const iterator& other) const { return pointer_ >= other.pointer_; }
         bool operator==(const const_iterator& other) const { return pointer_ == other.pointer_; }
         bool operator!=(const const_iterator& other) const { return pointer_ != other.pointer_; }
     };
